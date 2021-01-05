@@ -32,6 +32,6 @@ function saveFile(data, filename) {
         text += "\n" + key + '=' + data[key];
     }
     fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/${filename}`, text);
-    core.info(`Content saved, filename: ${filename}`);
-    core.info(data);
+    console.info(`Content saved, filename: ${filename}`);
+    console.info(JSON.stringify(data));
 }

@@ -19,7 +19,9 @@ jobs:
               with:
                   json-url: 'https://raw.githubusercontent.com/thezion/github-action-env-vars/master/dist/source.json'
                   preset: 'vue'
-                  filename: 'dist/actual'
+                  filename: 'dist/actual-vue'
+            - name: Files comparison
+              run: cmp -s dist/expect-vue dist/actual-vue
             - name: Deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v3
               with:
