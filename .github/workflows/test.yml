@@ -1,0 +1,28 @@
+name: Test Action Runs
+
+on:
+    workflow_dispatch:
+    pull_request:
+        branches: master
+
+jobs:
+    my-deploy-job:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+              with:
+                  persist-credentials: false
+            - uses: actions/setup-node@master
+              with:
+                  node-version: '14'
+            - uses: thezion/github-action-env-vars@master
+              with:
+                  json-url: 'https://raw.githubusercontent.com/thezion/github-action-env-vars/master/dist/source.json'
+                  preset: 'vue'
+                  filename: 'dist/actual'
+            - name: Deploy to GitHub Pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.CICD_TOKEN }}
+                  publish_dir: ./dist
+                  publish_branch: gh-pages
