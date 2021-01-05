@@ -1,0 +1,23 @@
+name: 'Download Environment Variables'
+
+description: 'Download environment variables from a url and save them in .env'
+
+inputs:
+  json-url:
+    description: 'A url which returns a json object'
+    required: true
+  preset:
+    description: 'Presets like vue, angular, react'
+    required: false
+  filename:
+    description: 'Filename to save. Defaults to .env.local'
+    required: false
+    default: '.env.local'
+
+outputs:
+  count:
+    description: 'How many vars have been download'
+
+runs:
+  using: 'node14'
+  main: 'index.js'
