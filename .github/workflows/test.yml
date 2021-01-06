@@ -17,14 +17,14 @@ jobs:
                   node-version: '12'
             - uses: thezion/github-action-env-vars@master
               with:
-                  json-url: 'https://raw.githubusercontent.com/thezion/github-action-env-vars/master/dist/source.json'
+                  json-url: 'https://raw.githubusercontent.com/thezion/github-action-env-vars/master/public/source.json'
                   preset: 'vue'
-                  filename: 'dist/actual-vue'
+                  filename: 'public/actual-vue'
             - name: Files comparison
-              run: cmp -s dist/expect-vue dist/actual-vue
+              run: cmp -s public/expect-vue public/actual-vue
             - name: Deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v3
               with:
                   github_token: ${{ secrets.CICD_TOKEN }}
-                  publish_dir: ./dist
+                  publish_dir: ./public
                   publish_branch: gh-pages

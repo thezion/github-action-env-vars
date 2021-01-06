@@ -3,6 +3,7 @@ const core = require('@actions/core');
 const fs = require('fs');
 const axios = require('axios');
 const handler = require('./handler.js');
+const io = require('./io.js');
 
 try {
     const input = {
@@ -17,21 +18,10 @@ try {
             throw new Error('Http client did not receive an object from url');
         }
         const varsToSave = input.preset && handler[input.preset] ? handler[input.preset](downloadedJson) : handler.basic(downloadedJson);
-        saveFile(varsToSave, input.filename);
+        io.saveFile(varsToSave, input.filename);
         core.setOutput("count", Object.keys(varsToSave).length);
     })
-    
+
 } catch (error) {
     core.setFailed(error.message);
-}
-
-
-function saveFile(data, filename) {
-    let text = '';
-    for(const key in data) {
-        text += "\n" + key + '=' + data[key];
-    }
-    fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/${filename}`, text);
-    console.info(`Content saved, filename: ${filename}`);
-    console.info(JSON.stringify(data));
 }
