@@ -1,4 +1,7 @@
-function saveFile(data, filename) {
+import fs from 'fs';
+import { EnvVars } from './types/EnvVars.interface';
+
+function saveFile(data: EnvVars, filename: string) {
     let text = '';
     for (const key in data) {
         text += "\n" + key + '=' + data[key];
@@ -8,6 +11,6 @@ function saveFile(data, filename) {
     console.info(JSON.stringify(data));
 }
 
-module.exports = {
+export default {
     saveFile,
 };
