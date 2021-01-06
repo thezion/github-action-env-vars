@@ -15,10 +15,8 @@ jobs:
             - uses: actions/setup-node@master
               with:
                   node-version: '12'
-            - name: Extract branch name
-              shell: bash
-              run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-              id: extract_branch
+            - name: Build (TS->JS)
+              run: tsc
             - uses: thezion/github-action-env-vars@develop
               with:
                   json-url: 'https://raw.githubusercontent.com/thezion/github-action-env-vars/master/public/source.json'
@@ -26,9 +24,9 @@ jobs:
                   filename: 'public/actual-vue'
             - name: Files comparison
               run: cmp -s public/expect-vue public/actual-vue
-            - name: Deploy to GitHub Pages
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                  github_token: ${{ secrets.CICD_TOKEN }}
-                  publish_dir: ./public
-                  publish_branch: gh-pages
+            # - name: Deploy to GitHub Pages
+            #   uses: peaceiris/actions-gh-pages@v3
+            #   with:
+            #       github_token: ${{ secrets.CICD_TOKEN }}
+            #       publish_dir: ./public
+            #       publish_branch: gh-pages
