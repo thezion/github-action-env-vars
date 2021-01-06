@@ -1,17 +1,36 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __importDefault(require("@actions/core"));
+var core = __importStar(require("@actions/core"));
 var axios_1 = __importDefault(require("axios"));
 var handler_1 = __importDefault(require("./handler"));
 var io_1 = __importDefault(require("./io"));
 try {
     var input_1 = {
-        'json-url': core_1.default.getInput('json-url'),
-        'preset': core_1.default.getInput('preset'),
-        'filename': core_1.default.getInput('filename'),
+        'json-url': core.getInput('json-url'),
+        'preset': core.getInput('preset'),
+        'filename': core.getInput('filename'),
     };
     axios_1.default.get(input_1['json-url']).then(function (res) {
         var downloadedJson = res.data;
@@ -20,9 +39,9 @@ try {
         }
         var varsToSave = input_1.preset && handler_1.default[input_1.preset] ? handler_1.default[input_1.preset](downloadedJson) : handler_1.default.basic(downloadedJson);
         io_1.default.saveFile(varsToSave, input_1.filename);
-        core_1.default.setOutput("count", Object.keys(varsToSave).length);
+        core.setOutput("count", Object.keys(varsToSave).length);
     });
 }
 catch (error) {
-    core_1.default.setFailed(error.message);
+    core.setFailed(error.message);
 }
