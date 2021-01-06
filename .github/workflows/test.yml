@@ -19,7 +19,7 @@ jobs:
               shell: bash
               run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
               id: extract_branch
-            - uses: thezion/github-action-env-vars@${{ steps.extract_branch.outputs.branch }}
+            - uses: thezion/github-action-env-vars@develop
               with:
                   json-url: 'https://raw.githubusercontent.com/thezion/github-action-env-vars/master/public/source.json'
                   preset: 'vue'
