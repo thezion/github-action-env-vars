@@ -17,7 +17,8 @@ jobs:
                   node-version: '12'
             - name: Build (TS->JS)
               run: tsc
-            - uses: ./
+            - name: Test
+              uses: ./
               with:
                   json-url: 'https://raw.githubusercontent.com/thezion/github-action-env-vars/master/public/source.json'
                   preset: 'vue'

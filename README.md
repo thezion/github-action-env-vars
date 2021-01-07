@@ -1,8 +1,8 @@
 # Download Environment Variables
 
-Used in Github Action
+Used in **Github Action**
 
-Download environment variables from a url and save them in .env
+Download environment variables from a url which returns json, then save as a file
 
 ## Example
 
