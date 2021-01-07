@@ -3,6 +3,8 @@ import axios from 'axios';
 import handler from './handler';
 import io from './io';
 
+import { EnvVars } from './types/EnvVars.interface';
+
 try {
     const input = {
         'json-url': core.getInput('json-url'),
@@ -15,7 +17,17 @@ try {
         if (!downloadedJson || typeof downloadedJson != 'object') {
             throw new Error('Http client did not receive an object from url');
         }
-        const varsToSave = input.preset && handler[input.preset] ? handler[input.preset](downloadedJson) : handler.basic(downloadedJson);
+        let varsToSave: EnvVars;
+        switch (input.preset) {
+            case 'vue': {
+                varsToSave = handler.vue(downloadedJson);
+                break;
+            }
+            default: {
+                varsToSave = handler.basic(downloadedJson);
+                break;
+            }
+        }
         io.saveFile(varsToSave, input.filename);
         core.setOutput("count", Object.keys(varsToSave).length);
     })

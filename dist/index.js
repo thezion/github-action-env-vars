@@ -37,7 +37,17 @@ try {
         if (!downloadedJson || typeof downloadedJson != 'object') {
             throw new Error('Http client did not receive an object from url');
         }
-        var varsToSave = input_1.preset && handler_1.default[input_1.preset] ? handler_1.default[input_1.preset](downloadedJson) : handler_1.default.basic(downloadedJson);
+        var varsToSave;
+        switch (input_1.preset) {
+            case 'vue': {
+                varsToSave = handler_1.default.vue(downloadedJson);
+                break;
+            }
+            default: {
+                varsToSave = handler_1.default.basic(downloadedJson);
+                break;
+            }
+        }
         io_1.default.saveFile(varsToSave, input_1.filename);
         core.setOutput("count", Object.keys(varsToSave).length);
     });
