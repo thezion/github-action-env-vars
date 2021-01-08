@@ -22,23 +22,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core = __importStar(require("@actions/core"));
-var axios_1 = __importDefault(require("axios"));
-var handler_1 = __importDefault(require("./handler"));
-var io_1 = __importDefault(require("./io"));
+const core = __importStar(require("@actions/core"));
+const axios_1 = __importDefault(require("axios"));
+const handler_1 = __importDefault(require("./handler"));
+const io_1 = __importDefault(require("./io"));
 try {
-    var input_1 = {
+    const input = {
         'json-url': core.getInput('json-url'),
         'preset': core.getInput('preset'),
         'filename': core.getInput('filename'),
     };
-    axios_1.default.get(input_1['json-url']).then(function (res) {
-        var downloadedJson = res.data;
+    axios_1.default.get(input['json-url']).then(function (res) {
+        const downloadedJson = res.data;
         if (!downloadedJson || typeof downloadedJson != 'object') {
             throw new Error('Http client did not receive an object from url');
         }
-        var varsToSave;
-        switch (input_1.preset) {
+        let varsToSave;
+        switch (input.preset) {
             case 'vue': {
                 varsToSave = handler_1.default.vue(downloadedJson);
                 break;
@@ -48,7 +48,7 @@ try {
                 break;
             }
         }
-        io_1.default.saveFile(varsToSave, input_1.filename);
+        io_1.default.saveFile(varsToSave, input.filename);
         core.setOutput("count", Object.keys(varsToSave).length);
     });
 }

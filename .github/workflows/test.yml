@@ -16,14 +16,14 @@ jobs:
               with:
                   node-version: '12'
             - name: Build (TS->JS)
-              run: tsc
-            - name: Test
+              run: tsc -v && npm run build
+            - name: Run
               uses: ./
               with:
                   json-url: 'https://raw.githubusercontent.com/thezion/github-action-env-vars/master/public/source.json'
                   preset: 'vue'
                   filename: 'public/actual-vue'
-            - name: File Comparison
+            - name: Test (File Comparison)
               run: (cmp -s public/expect-vue public/actual-vue && echo 'test passed') || (echo 'test failed' && exit 1)
             # - name: Deploy to GitHub Pages
             #   uses: peaceiris/actions-gh-pages@v3
